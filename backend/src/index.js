@@ -1,11 +1,33 @@
 const express = require('express');
-const { uuid } = require('uuidv4');
+const { uuid, isUuid } = require('uuidv4');
 
 const app = express();
 
 app.use(express.json());
 
 const projects = [];  //Funciona como "DB" de testes
+
+function logRequests(request, response, next) {
+  const { method, url } = request;
+
+  const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+  console.log(logLabel);
+
+  return next();  //Próximo middleware
+}
+
+function validateProjectID(request, response, next) {
+  const { id } = request.params;
+
+  if (!isUuid(id)) {  // Se o id não for um id válido
+    return response.status(400).json({ error: 'Invalid project ID.' });
+  }
+  return next();
+}
+
+app.use(logRequests);
+app.use('/projects/:id', validateProjectID);  //Todos os middlewares que tenham este parametro recebem o validateProjectID
 
 app.get('/projects', (request, response) => {
   const { title } = request.query;
