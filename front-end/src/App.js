@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import './App.css';
+import backgroundImage from './assets/background.jpeg';
+
 import Header from './Components/Header';
 
 function App() {
@@ -17,6 +20,8 @@ function App() {
   return (
     <>
       <Header title="Projects" />
+
+      <img width={300} src={backgroundImage} alt=""/>
 
       <ul>
         {projects.map(project => <li key={project}>{project}</li>)}  {/* Dada project dentro de projects, vai retornar um li com cada projeto */}
