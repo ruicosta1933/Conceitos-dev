@@ -18,9 +18,17 @@ function App() {
   //1. Variável com o seu valor inicial
   //2. Função para atualizar esse valor
 
-  function handleAddProject() {
+  async function handleAddProject() {
+    // setProjects([...projects, `Novo Projeto ${Date.now()}`]); //Copio o array projects e adiciono o novo
 
-    setProjects([...projects, `Novo Projeto ${Date.now()}`]); //Copio o array projects e adiciono o novo
+    const response = await api.post('projects', {
+      title: `Novo Projeto ${Date.now()}`,
+      owner: "Diogo Martins"
+    });
+
+    const project = response.data;
+
+    setProjects([...projects, project]);
   }
 
   return (
